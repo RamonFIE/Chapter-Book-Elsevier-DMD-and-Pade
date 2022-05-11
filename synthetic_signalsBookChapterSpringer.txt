@@ -1,0 +1,27 @@
+% synthetic signals 
+% This case were used in:
+% [1] Ramon J Betancourt, Daniel Ramon Rodriguez, Antonio Concha, Emilio Barocio.Identification of Source Harmonics in Electrical Networks Using Spatio-temporal Approaches. In: Rafael Segundo, Peter Korba, E. Barocio. (eds) Monitoring & control of electrical power systems using machine learning techniques. 2022, Elsevier. Aceptado para publicación.
+  [2] Ramón J. Betancourt, Emilio Barocio, Carlos M. Rergis, Juan M González-López, Antonio Concha Sánchez, A spatio-temporal processing Padé approach for visualizing harmonic distortion propagation on electrical networks, Electric Power Systems Research, Volume 203, 2022,107643, ISSN 0378-7796, https://doi.org/10.1016/j.epsr.2021.107643.
+
+
+clear all
+close all
+clc
+w=2*pi*50; %angular velocity fundamental frequency 
+A=3; % fundamental frequency amplitude
+Fs=1000; % sampling frequency in Hz
+t=[0:1/Fs:3/60];% discrete time vector
+x=A*sin(w*t)+A/3*sin(3*w*t)+A/5*sin(5*w*t); % signal with 3rd and 5th order harmonics x1
+x1=awgn(x,25); % x1 plus 25dB 
+x2=x+2*sin(2*pi*200*t).*exp(-60*t)+3*exp(-100*t)+2;; %signal x1 plus offset, damping and dc decaying term
+x3=x+1.5*sin(2*pi*34.5*t)+sin(2*pi*90*t); % signal x1 with inter-harmonics
+% signal with intermodulation
+a=3/2;
+w=2*pi*50;
+dw=2*pi*10;
+pa=-80*pi/180;
+x4=cos(w*t)+a*cos((w-dw)*t+pa)+a*cos((w+dw)*t-pa); % x4
+
+% signal with off-nominal frequency
+x5=5*sin(2*pi*49.8*t)+2*sin(2*pi*149.4*t)+sin(2*pi*249*t); %x5
+    
